@@ -31,6 +31,20 @@ public class AuthRequestWrapper extends HttpServletRequestWrapper {
 	}
 
 	@Override
+	public void login(String username, String password) throws ServletException {
+
+		// Custom authentication here
+		if (username.equalsIgnoreCase("test") && password.equalsIgnoreCase("test")) {
+			realRequest.getSession().setAttribute("user", "F");
+		}
+	}
+
+	@Override
+	public void logout() throws ServletException {
+		super.logout();
+	}
+
+	@Override
 	public String getRemoteUser() {
 		if (true) {
 			return realRequest.getRemoteUser();
@@ -52,20 +66,6 @@ public class AuthRequestWrapper extends HttpServletRequestWrapper {
 			return realRequest.isUserInRole(role);
 		}
 		return false;
-	}
-
-	@Override
-	public void login(String username, String password) throws ServletException {
-
-		// Custom authentication here
-		if (username.equalsIgnoreCase("test") && password.equalsIgnoreCase("test")) {
-			realRequest.getSession().setAttribute("user", "F");
-		}
-	}
-
-	@Override
-	public void logout() throws ServletException {
-		super.logout();
 	}
 
 }
