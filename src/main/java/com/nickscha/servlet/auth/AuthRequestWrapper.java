@@ -41,6 +41,7 @@ public class AuthRequestWrapper extends HttpServletRequestWrapper {
 
 	@Override
 	public void logout() throws ServletException {
+		// Remove user ?
 		super.logout();
 	}
 

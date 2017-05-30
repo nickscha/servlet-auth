@@ -43,4 +43,10 @@ public class LoginServlet extends HttpServlet {
 		request.login(username, password);
 	}
 
+	@Override
+	protected void doDelete(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		request.logout();
+	}
+
 }
