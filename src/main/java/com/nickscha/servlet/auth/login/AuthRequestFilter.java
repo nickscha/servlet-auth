@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.nickscha.servlet.auth;
+package com.nickscha.servlet.auth.login;
 
 import java.io.IOException;
 
@@ -24,20 +24,39 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
+import javax.servlet.annotation.WebInitParam;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-@WebFilter(urlPatterns = "/*", filterName = "AuthRequestFilter")
+@WebFilter(urlPatterns = "/*", 
+		   filterName  = "AuthRequestFilter", 
+		   initParams  = @WebInitParam(name = "RESTRICT_URL_PATTERN", value = "/main/*"))
 public class AuthRequestFilter implements Filter {
+
+	private String restrictedUrlPattern;
 
 	@Override
 	public void init(FilterConfig config) throws ServletException {
-
+		restrictedUrlPattern = config.getInitParameter("RESTRICT_URL_PATTERN");
 	}
 
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
-		chain.doFilter(new AuthRequestWrapper((HttpServletRequest) request), response);
+		HttpServletRequest req = (HttpServletRequest) request;
+		HttpServletResponse res = (HttpServletResponse) response;
+		HttpSession session = req.getSession(false);
+		String loginURI = req.getContextPath() + "/login";
+
+		boolean loggedIn = session != null && session.getAttribute("user") != null;
+		boolean loginRequest = req.getRequestURI().equals(loginURI);
+
+		if (loggedIn || loginRequest) {
+			chain.doFilter(new AuthRequestWrapper((HttpServletRequest) request), response);
+		} else {
+			res.sendRedirect(loginURI);
+		}
 	}
 
 	@Override

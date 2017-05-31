@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.nickscha.servlet.auth;
+package com.nickscha.servlet.auth.login;
 
 import java.io.IOException;
 
@@ -24,7 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/login")
-public class LoginServlet extends HttpServlet {
+public class MyLoginServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 3329450219328582888L;
 
@@ -41,6 +41,7 @@ public class LoginServlet extends HttpServlet {
 		final String password = request.getParameter("password");
 
 		request.login(username, password);
+		response.sendRedirect(request.getContextPath() + "/");
 	}
 
 	@Override

@@ -13,60 +13,79 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.nickscha.servlet.auth;
+package com.nickscha.servlet.auth.login;
 
 import java.security.Principal;
+import java.util.Optional;
 
+import javax.security.auth.login.LoginException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
+import javax.servlet.http.HttpSession;
+
+import com.nickscha.servlet.auth.login.modules.MyCustomPrincipal;
+import com.nickscha.servlet.auth.login.modules.MyLoginModule;
 
 public class AuthRequestWrapper extends HttpServletRequestWrapper {
 
 	private final HttpServletRequest realRequest;
+	private final MyCustomPrincipal principal;
 
 	public AuthRequestWrapper(HttpServletRequest request) {
 		super(request);
 		this.realRequest = request;
+		this.principal = Optional.ofNullable(request.getSession(false)).filter(e -> e.getAttribute("user") != null)
+				.map(session -> (MyCustomPrincipal) session.getAttribute("user"))
+				.orElse(new MyCustomPrincipal("guest", null));
 	}
 
 	@Override
 	public void login(String username, String password) throws ServletException {
 
-		// Custom authentication here
-		if (username.equalsIgnoreCase("test") && password.equalsIgnoreCase("test")) {
-			realRequest.getSession().setAttribute("user", "F");
+		try {
+			HttpSession session = this.realRequest.getSession(false);
+			if (session != null) {
+				session.removeAttribute("user");
+			}
+
+			// Custom authentication here
+			MyCustomPrincipal principal = MyLoginModule.login(username, password);
+			System.out.println("User: " + principal);
+			this.realRequest.getSession().setAttribute("user", principal);
+		} catch (LoginException e) {
+			e.printStackTrace();
 		}
 	}
 
 	@Override
 	public void logout() throws ServletException {
-		// Remove user ?
+		// Remove user from user service ?
 		super.logout();
 	}
 
 	@Override
 	public String getRemoteUser() {
-		if (true) {
+		if (principal == null) {
 			return realRequest.getRemoteUser();
 		}
-		return null;
+		return principal.getName();
 	}
 
 	@Override
 	public Principal getUserPrincipal() {
-		if (true) {
+		if (principal == null) {
 			return realRequest.getUserPrincipal();
 		}
-		return null;
+		return principal;
 	}
 
 	@Override
 	public boolean isUserInRole(String role) {
-		if (true) {
+		if (principal == null) {
 			return realRequest.isUserInRole(role);
 		}
-		return false;
+		return principal.isUserInRole(role);
 	}
 
 }
