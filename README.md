@@ -44,3 +44,16 @@ Authenticates the user and in this sample project creates the MyCustomPrincipal 
 
 ### MyLogoutServlet (path=/logout, action=post)
 Invalidates the Http Session.
+ 
+ 
+## Further Stuff
+
+### @Inject MyCustomPrincipal
+You might want to simply Inject your principal in applications. Use the following code (JSF + CDI):
+
+```java
+  @Produces
+  public MyCustomPrincipal producePrincipal(){
+    return FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal();
+  }
+```
