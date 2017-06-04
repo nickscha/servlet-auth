@@ -24,21 +24,16 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
-import javax.servlet.annotation.WebInitParam;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 @WebFilter(urlPatterns = "/*", 
-		   filterName  = "AuthRequestFilter", 
-		   initParams  = @WebInitParam(name = "RESTRICT_URL_PATTERN", value = "/main/*"))
+		   filterName  = "AuthRequestFilter")
 public class AuthRequestFilter implements Filter {
-
-	private String restrictedUrlPattern;
 
 	@Override
 	public void init(FilterConfig config) throws ServletException {
-		restrictedUrlPattern = config.getInitParameter("RESTRICT_URL_PATTERN");
 	}
 
 	@Override

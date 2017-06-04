@@ -18,14 +18,8 @@ package com.nickscha.servlet.auth.login;
 import java.security.Principal;
 import java.util.Optional;
 
-import javax.security.auth.login.LoginException;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
-import javax.servlet.http.HttpSession;
-
-import com.nickscha.servlet.auth.login.modules.MyCustomPrincipal;
-import com.nickscha.servlet.auth.login.modules.MyLoginModule;
 
 public class AuthRequestWrapper extends HttpServletRequestWrapper {
 
@@ -35,33 +29,13 @@ public class AuthRequestWrapper extends HttpServletRequestWrapper {
 	public AuthRequestWrapper(HttpServletRequest request) {
 		super(request);
 		this.realRequest = request;
-		this.principal = Optional.ofNullable(request.getSession(false)).filter(e -> e.getAttribute("user") != null)
-				.map(session -> (MyCustomPrincipal) session.getAttribute("user"))
-				.orElse(new MyCustomPrincipal("guest", null));
-	}
-
-	@Override
-	public void login(String username, String password) throws ServletException {
-
-		try {
-			HttpSession session = this.realRequest.getSession(false);
-			if (session != null) {
-				session.removeAttribute("user");
-			}
-
-			// Custom authentication here
-			MyCustomPrincipal principal = MyLoginModule.login(username, password);
-			System.out.println("User: " + principal);
-			this.realRequest.getSession().setAttribute("user", principal);
-		} catch (LoginException e) {
-			e.printStackTrace();
-		}
-	}
-
-	@Override
-	public void logout() throws ServletException {
-		// Remove user from user service ?
-		super.logout();
+		
+		// Assign your custom principal here to make it available
+		// when using #{request.userPrincipal}, ...
+		this.principal = Optional.ofNullable(request.getSession(false))
+				                 .filter(e -> e.getAttribute("user") != null)
+								 .map(session -> (MyCustomPrincipal) session.getAttribute("user"))
+								 .orElse(new MyCustomPrincipal("guest", null));
 	}
 
 	@Override

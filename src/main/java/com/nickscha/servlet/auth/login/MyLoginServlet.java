@@ -16,12 +16,15 @@
 package com.nickscha.servlet.auth.login;
 
 import java.io.IOException;
+import java.util.Arrays;
 
+import javax.security.auth.login.LoginException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @WebServlet("/login")
 public class MyLoginServlet extends HttpServlet {
@@ -40,7 +43,24 @@ public class MyLoginServlet extends HttpServlet {
 		final String username = request.getParameter("username");
 		final String password = request.getParameter("password");
 
-		request.login(username, password);
+		HttpSession session = request.getSession(false);
+		if (session != null) {
+			session.removeAttribute("user");
+		}
+		
+		// Do your crazy complex login procedure here
+		if (username.equalsIgnoreCase("test") && password.equalsIgnoreCase("test")) {
+			request.getSession().setAttribute("user", new MyCustomPrincipal(username, Arrays.asList("manager", "admin")));
+			System.out.println("Principal is: " + request.getSession(false).getAttribute("user"));
+		} else {
+			// TODO what should happen when login fails
+			try {
+				throw new LoginException("You're not test=test user !");
+			} catch (LoginException e) {
+				e.printStackTrace();
+			}
+		}
+
 		response.sendRedirect(request.getContextPath() + "/");
 	}
 
