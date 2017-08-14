@@ -30,7 +30,7 @@ import javax.servlet.http.HttpSession;
 
 @WebFilter(urlPatterns = "/*", 
 		   filterName  = "AuthRequestFilter")
-public class AuthRequestFilter implements Filter {
+public final class AuthRequestFilter implements Filter {
 
 	@Override
 	public void init(FilterConfig config) throws ServletException {

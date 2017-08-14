@@ -27,7 +27,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 @WebServlet("/login")
-public class MyLoginServlet extends HttpServlet {
+public final class MyLoginServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 3329450219328582888L;
 

@@ -21,7 +21,7 @@ import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 
-public class AuthRequestWrapper extends HttpServletRequestWrapper {
+public final class AuthRequestWrapper extends HttpServletRequestWrapper {
 
 	private final HttpServletRequest realRequest;
 	private final MyCustomPrincipal principal;
