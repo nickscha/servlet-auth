@@ -29,7 +29,7 @@ public class MyCustomPrincipal implements Principal, Serializable {
 	private final List<String> roles;
 
 	public MyCustomPrincipal(String name, List<String> roles) {
-		this.name = Objects.requireNonNull(name, () -> "Principal name is required but was null !");
+		this.name  = Objects.requireNonNull(name, () -> "Principal name is required but was null !");
 		this.roles = Optional.ofNullable(roles).orElseGet(ArrayList::new);
 	}
 

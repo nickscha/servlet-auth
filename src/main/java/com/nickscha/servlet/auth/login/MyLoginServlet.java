@@ -53,7 +53,7 @@ public final class MyLoginServlet extends HttpServlet {
 			request.getSession().setAttribute("user", new MyCustomPrincipal(username, Arrays.asList("manager", "admin")));
 			System.out.println("Principal is: " + request.getSession(false).getAttribute("user"));
 		} else {
-			// TODO what should happen when login fails
+			// what should happen when login fails
 			try {
 				throw new LoginException("You're not test=test user !");
 			} catch (LoginException e) {

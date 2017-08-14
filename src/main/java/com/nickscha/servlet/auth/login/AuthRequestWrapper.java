@@ -35,12 +35,12 @@ public final class AuthRequestWrapper extends HttpServletRequestWrapper {
 		this.principal = Optional.ofNullable(request.getSession(false))
                                  .filter(e -> e.getAttribute("user") != null)
                                  .map(session -> (MyCustomPrincipal) session.getAttribute("user"))
-                                 .orElse(new MyCustomPrincipal("guest", null));
+                                 .orElse(null);
 	}
 
 	@Override
 	public String getRemoteUser() {
-		return Optional.ofNullable(principal).map(e -> e.getName()).orElseGet(realRequest::getRemoteUser);
+		return Optional.ofNullable(principal).map(Principal::getName).orElseGet(realRequest::getRemoteUser);
 	}
 
 	@Override

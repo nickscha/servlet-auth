@@ -33,8 +33,7 @@ import javax.servlet.http.HttpSession;
 public final class AuthRequestFilter implements Filter {
 
 	@Override
-	public void init(FilterConfig config) throws ServletException {
-	}
+	public void init(FilterConfig config) throws ServletException {}
 
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
@@ -55,7 +54,6 @@ public final class AuthRequestFilter implements Filter {
 	}
 
 	@Override
-	public void destroy() {
-	}
+	public void destroy() {}
 
 }
