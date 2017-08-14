@@ -27,7 +27,7 @@ When JASPIC, Container, JAAS, Identity Stores (Keycloak, ...) do not fit with yo
 
 ### Tested with
 * Tomcat 8.5.15
-* Jetty 9.4.5
+* Jetty 9.4.6
 * Wildfly 10
 * Payara 172
  
