@@ -33,33 +33,24 @@ public class AuthRequestWrapper extends HttpServletRequestWrapper {
 		// Assign your custom principal here to make it available
 		// when using #{request.userPrincipal}, ...
 		this.principal = Optional.ofNullable(request.getSession(false))
-				                 .filter(e -> e.getAttribute("user") != null)
-								 .map(session -> (MyCustomPrincipal) session.getAttribute("user"))
-								 .orElse(new MyCustomPrincipal("guest", null));
+                                 .filter(e -> e.getAttribute("user") != null)
+                                 .map(session -> (MyCustomPrincipal) session.getAttribute("user"))
+                                 .orElse(new MyCustomPrincipal("guest", null));
 	}
 
 	@Override
 	public String getRemoteUser() {
-		if (principal == null) {
-			return realRequest.getRemoteUser();
-		}
-		return principal.getName();
+		return Optional.ofNullable(principal).map(e -> e.getName()).orElseGet(realRequest::getRemoteUser);
 	}
 
 	@Override
 	public Principal getUserPrincipal() {
-		if (principal == null) {
-			return realRequest.getUserPrincipal();
-		}
-		return principal;
+		return Optional.ofNullable(principal).map(e -> ((Principal) e)).orElseGet(realRequest::getUserPrincipal);
 	}
 
 	@Override
 	public boolean isUserInRole(String role) {
-		if (principal == null) {
-			return realRequest.isUserInRole(role);
-		}
-		return principal.isUserInRole(role);
+		return Optional.ofNullable(principal).map(e -> e.isUserInRole(role)).orElse(realRequest.isUserInRole(role));
 	}
 
 }

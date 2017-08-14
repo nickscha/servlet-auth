@@ -19,6 +19,7 @@ import java.io.Serializable;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 public class MyCustomPrincipal implements Principal, Serializable {
@@ -28,7 +29,7 @@ public class MyCustomPrincipal implements Principal, Serializable {
 	private final List<String> roles;
 
 	public MyCustomPrincipal(String name, List<String> roles) {
-		this.name = name;
+		this.name = Objects.requireNonNull(name, () -> "Principal name is required but was null !");
 		this.roles = Optional.ofNullable(roles).orElseGet(ArrayList::new);
 	}
 
