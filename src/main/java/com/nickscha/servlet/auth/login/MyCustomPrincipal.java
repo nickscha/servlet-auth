@@ -22,6 +22,12 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+/**
+ * Example of a custom principal which is set by {@link MyLoginServlet}.
+ * 
+ * @author nickscha
+ *
+ */
 public class MyCustomPrincipal implements Principal, Serializable {
 
 	private static final long serialVersionUID = 6429527622593486174L;

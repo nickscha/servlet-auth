@@ -26,6 +26,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+/**
+ * The {@link MyLoginServlet} handles the login by procedure and sets the custom
+ * user principal.
+ * 
+ * @author nickscha
+ * @see src/main/webapp/login.html
+ *
+ */
 @WebServlet("/login")
 public final class MyLoginServlet extends HttpServlet {
 

@@ -28,6 +28,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+/**
+ * The {@link AuthRequestFilter} redirects the user to the login page one he accesses
+ * a restricted resource. If the user is loggin in the {@link AuthRequestWrapper} is 
+ * added to the filter chain.
+ * 
+ * @author nickscha
+ * @see AuthRequestWrapper
+ *
+ */
 @WebFilter(urlPatterns = "/*", 
 		   filterName  = "AuthRequestFilter")
 public final class AuthRequestFilter implements Filter {

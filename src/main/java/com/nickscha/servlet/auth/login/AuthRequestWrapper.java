@@ -21,6 +21,14 @@ import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 
+/**
+ * The {@link AuthRequestWrapper} overwrites the standard http request methods and passes
+ * your custom principal to the methods, set by {@link MyLoginServlet}, instead of the 
+ * container principal.
+ * 
+ * @author nickscha
+ *
+ */
 public final class AuthRequestWrapper extends HttpServletRequestWrapper {
 
 	private final HttpServletRequest realRequest;
