@@ -33,23 +33,21 @@ import javax.servlet.http.HttpSession;
 @WebServlet("/logout")
 public final class MyLogoutServlet extends HttpServlet {
 
-	private static final long serialVersionUID = -4548569976779077765L;
+    private static final long serialVersionUID = -4548569976779077765L;
 
-	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		HttpSession session = request.getSession(false);
-		if (session != null) {
-			session.invalidate();
-		}
-		request.logout();
-		response.sendRedirect(request.getContextPath() + "/");
-	}
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();
+        }
+        request.logout();
+        response.sendRedirect(request.getContextPath() + "/");
+    }
 
-	@Override
-	protected void doDelete(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		request.logout();
-	}
+    @Override
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.logout();
+    }
 
 }

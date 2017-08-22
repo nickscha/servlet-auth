@@ -30,31 +30,31 @@ import java.util.Optional;
  */
 public class MyCustomPrincipal implements Principal, Serializable {
 
-	private static final long serialVersionUID = 6429527622593486174L;
-	private final String name;
-	private final List<String> roles;
+    private static final long serialVersionUID = 6429527622593486174L;
+    private final String name;
+    private final List<String> roles;
 
-	public MyCustomPrincipal(String name, List<String> roles) {
-		this.name  = Objects.requireNonNull(name, () -> "Principal name is required but was null !");
-		this.roles = Optional.ofNullable(roles).orElseGet(ArrayList::new);
-	}
+    public MyCustomPrincipal(String name, List<String> roles) {
+        this.name = Objects.requireNonNull(name, () -> "Principal name is required but was null !");
+        this.roles = Optional.ofNullable(roles).orElseGet(ArrayList::new);
+    }
 
-	public boolean isUserInRole(final String role) {
-		return roles.stream().anyMatch(e -> e.equalsIgnoreCase(role));
-	}
+    public boolean isUserInRole(final String role) {
+        return roles.stream().anyMatch(e -> e.equalsIgnoreCase(role));
+    }
 
-	@Override
-	public String getName() {
-		return name;
-	}
+    @Override
+    public String getName() {
+        return name;
+    }
 
-	public List<String> getRoles() {
-		return roles;
-	}
+    public List<String> getRoles() {
+        return roles;
+    }
 
-	@Override
-	public String toString() {
-		return "MyCustomPrincipal [name=" + name + ", roles=" + roles + "]";
-	}
+    @Override
+    public String toString() {
+        return "MyCustomPrincipal [name=" + name + ", roles=" + roles + "]";
+    }
 
 }

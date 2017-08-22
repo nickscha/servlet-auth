@@ -37,45 +37,42 @@ import javax.servlet.http.HttpSession;
 @WebServlet("/login")
 public final class MyLoginServlet extends HttpServlet {
 
-	private static final long serialVersionUID = 3329450219328582888L;
+    private static final long serialVersionUID = 3329450219328582888L;
 
-	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		request.getRequestDispatcher("/login.html").forward(request, response);
-	}
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.getRequestDispatcher("/login.html").forward(request, response);
+    }
 
-	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		final String username = request.getParameter("username");
-		final String password = request.getParameter("password");
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        final String username = request.getParameter("username");
+        final String password = request.getParameter("password");
 
-		HttpSession session = request.getSession(false);
-		if (session != null) {
-			session.removeAttribute("user");
-		}
-		
-		// Do your crazy complex login procedure here
-		if (username.equalsIgnoreCase("test") && password.equalsIgnoreCase("test")) {
-			request.getSession().setAttribute("user", new MyCustomPrincipal(username, Arrays.asList("manager", "admin")));
-			System.out.println("Principal is: " + request.getSession(false).getAttribute("user"));
-		} else {
-			// what should happen when login fails
-			try {
-				throw new LoginException("You're not test=test user !");
-			} catch (LoginException e) {
-				e.printStackTrace();
-			}
-		}
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.removeAttribute("user");
+        }
 
-		response.sendRedirect(request.getContextPath() + "/");
-	}
+        // Do your crazy complex login procedure here
+        if (username.equalsIgnoreCase("test") && password.equalsIgnoreCase("test")) {
+            request.getSession().setAttribute("user", new MyCustomPrincipal(username, Arrays.asList("manager", "admin")));
+            System.out.println("Principal is: " + request.getSession(false).getAttribute("user"));
+        } else {
+            // what should happen when login fails
+            try {
+                throw new LoginException("You're not test=test user !");
+            } catch (LoginException e) {
+                e.printStackTrace();
+            }
+        }
 
-	@Override
-	protected void doDelete(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		request.logout();
-	}
+        response.sendRedirect(request.getContextPath() + "/");
+    }
+
+    @Override
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.logout();
+    }
 
 }
