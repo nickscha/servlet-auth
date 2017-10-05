@@ -8,6 +8,7 @@ A simplistic servlet example project for custom programmatic authentication.
 
 When JASPIC, Container, JAAS, Identity Stores (Keycloak, ...) do not fit with your requirements this can be an alternative. You write your custom authentication code once and you can deploy it to every available container which supports your targeted servlet specification. 
  
+Please note: For EE Containers EJB Security won't work. 
  
 ## Installation
 * Download, Build with Maven and deploy it to any container with servlet capabilities
